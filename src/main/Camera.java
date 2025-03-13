@@ -9,13 +9,14 @@ public class Camera
     private GameObject target;
     private GameManager gm;
 
-    private float speed = 0.08f;
+    private float speed;
 
-    public Camera(GameManager gm, ObjectID targetID) {
+    public Camera(GameManager gm, ObjectID targetID, float speed) {
         this.gm = gm;
         cameraX = 0;
         cameraY = 0;
         this.targetID = targetID;
+        this.speed = speed;
     }
 
     public void update() {

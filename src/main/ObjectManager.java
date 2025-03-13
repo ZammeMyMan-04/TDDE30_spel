@@ -7,6 +7,7 @@ public class ObjectManager {
 
     private ArrayList<GameObject> objects;
     private GameManager gm;
+    private boolean debug = true;
 
     public ObjectManager(GameManager gm) {
         this.gm = gm;
@@ -27,12 +28,14 @@ public class ObjectManager {
         // Rita objekten
         for (GameObject obj : objects) {
             obj.render(g2d);
+            if (debug)
+                obj.drawHitbox(g2d);
         }
     }
 
     public GameObject getObject(ObjectID id) {
         for (GameObject object : objects)
-            if (object.getID() == ObjectID.PlAYER)
+            if (object.getID() == id)
                 return object;
         return null;
     }

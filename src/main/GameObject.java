@@ -22,6 +22,8 @@ public abstract class GameObject
     }
 
     protected void updateHitbox() {
+        if (hitbox == null) return;
+
         hitbox.x = x + hitboxOffsetX;
         hitbox.y = y + hitboxOffsetY;
     }

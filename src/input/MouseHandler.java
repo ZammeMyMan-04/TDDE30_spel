@@ -9,6 +9,8 @@ import java.awt.event.MouseMotionListener;
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
     private GameManager gm;
+    private boolean button1 = false;
+    private boolean button1Old = false;
 
     public MouseHandler(GameManager gm) {
         this.gm = gm;
@@ -16,12 +18,12 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
+        button1 = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        button1 = false;
     }
 
     @Override
@@ -40,6 +42,16 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent mouseEvent) {
 //        gm.getPlayer().setX(mouseEvent.getX());
 //        gm.getPlayer().setY(mouseEvent.getY());
+    }
 
+    public void update() {
+        button1Old = button1;
+    }
+
+    public boolean button1Down() {
+        return button1;
+    }
+    public boolean button1Clicked() {
+        return button1 && !button1Old;
     }
 }

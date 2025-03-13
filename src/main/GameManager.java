@@ -5,37 +5,45 @@ import input.MouseHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+
+import static utilz.Constants.Fonts.*;
+import static utilz.Constants.Game.TS;
 
 public class GameManager extends JPanel {
 
-    // TILES
-    private final int ORIGINAL_TILE_SIZE = 36;
-    private int scale = 3;
-    private int tileSize = ORIGINAL_TILE_SIZE * scale;
-
     // INPUT HANDLERS
-    private KeyHandler keyHandler = new KeyHandler(this);
-    private MouseHandler mouseHandler = new MouseHandler(this);
+    private final KeyHandler keyHandler = new KeyHandler(this);
+    private final MouseHandler mouseHandler = new MouseHandler(this);
 
     // MANAGERS
-    private ObjectManager objManager = new ObjectManager(this);
+    private final ObjectManager objManager = new ObjectManager(this);
+    private final UI ui = new UI(this);
+    private final SoundManager soundManager = new SoundManager();
 
     // OBJECTS
-    private Camera camera = new Camera(this, ObjectID.PlAYER);
+    private final Camera camera;
+
+    // GAME STATE
+    private GameState state = GameState.WELCOME;
+
+    // TEMPORARY
+    int i = 0;
 
     public GameManager() {
-        initPanel(500, 500);
+        initPanel(TS * 30, TS * 20);
 
+        camera = new Camera(this, ObjectID.PlAYER, 0.08f);
         camera.setTarget(objManager.getObject(ObjectID.PlAYER));
     }
 
     private void initPanel(int width, int height) {
-        // SIZE
+        // SET SIZE
         this.setPreferredSize(new Dimension(width, height));
         this.setBackground(new Color(0, 0, 0));
         this.setDoubleBuffered(true);
 
-        // INPUT
+        // ADD INPUT
         addKeyListener(keyHandler);
         addMouseListener(mouseHandler);
         addMouseMotionListener(mouseHandler);
@@ -43,28 +51,80 @@ public class GameManager extends JPanel {
     }
 
     public void updateGame() {
-        objManager.update();
-        camera.update();
+
+        switch (state) {
+            case PLAY -> {
+                objManager.update();
+                camera.update();
+
+
+                // ADD A MESSAGE
+                if (keyHandler.isKeyClick(KeyEvent.VK_SPACE)) {
+                    ui.getMessageManager().addMessage("message " + i);
+                    i++;
+                }
+            }
+            case WELCOME -> {
+                camera.update();
+            }
+        }
+
+        updateState();
+        keyHandler.updateKeys();
+        mouseHandler.update();
+    }
+
+    private void updateState() {
+        switch (state) {
+            case PLAY -> {
+                if (keyHandler.isKeyClick(KeyEvent.VK_ESCAPE))
+                    state = GameState.PAUS;
+            }
+            case PAUS -> {
+                if (keyHandler.isKeyClick(KeyEvent.VK_ESCAPE))
+                    state = GameState.PLAY;
+            }
+            case WELCOME -> {
+                if (keyHandler.isKeyClick(KeyEvent.VK_SPACE))
+                    state = GameState.PLAY;
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        ui.setG2D(g2d);
 
-        // Apply translation (move entire world)
+        g2d.setColor(new Color(0, 90, 0));
+        g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        //g2d.translate(-cameraX, -cameraY);
         camera.applyTranslation(g2d);
+
+        // ZOOM
+        if (mouseHandler.button1Down()) { // fungerar lite lustigt
+            g2d.scale(3d, 3d);
+        }
 
         objManager.draw(g2d);
 
+        g2d.setColor(Color.white);
         g2d.drawRect(0, 0, 10, 10);
 
-        //g2d.translate(cameraX, cameraY);
         camera.restoreTranslation(g2d);
 
-        g2d.drawRect(0, 0, 10, 10);
+        // UI
+        ui.draw();
 
+        // STATE
+        if (state == GameState.PAUS) {
+            g2d.setFont(ARIAL_80B);
+            ui.drawCenteredText("PAUS", getWidth() / 2, getHeight() / 2);
+        }
+        if (state == GameState.WELCOME) {
+            g2d.setFont(ARIAL_80B);
+            ui.drawCenteredText("WELCOME!", getWidth() / 2, getHeight() / 2);
+        }
 
         g2d.dispose();
     }
@@ -72,8 +132,25 @@ public class GameManager extends JPanel {
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
-
     public ObjectManager getObjManager() {
         return objManager;
+    }
+    public GameState getState() {
+        return state;
+    }
+    public void setState(GameState state) {
+        this.state = state;
+    }
+    public UI getUi() {
+        return ui;
+    }
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
+    public Camera getCamera() {
+        return camera;
+    }
+    public MouseHandler getMouseHandler() {
+        return mouseHandler;
     }
 }
