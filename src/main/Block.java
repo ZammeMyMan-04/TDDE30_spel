@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.*;
-import java.sql.SQLOutput;
 
 public class Block extends GameObject{
 
@@ -35,19 +34,20 @@ public class Block extends GameObject{
     @Override
     public void render(Graphics2D g2d) {
 
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(new Color(0, 0, 150, 100));
         g2d.fillRect((int)x, (int)y, width, height);
     }
 
     @Override
     public void collision(GameObject other) {
 
-        switch (other.getID()) {
-            case PlAYER -> {
-                System.out.println("Collision to player");
-
-                remove = true;
-            }
-        }
+        System.out.println("Collided with: " + other.getID());
+//        switch (other.getID()) {
+//            case PLAYER -> {
+//                System.out.println("Collision to player");
+//
+//                remove = true;
+//            }
+//        }
     }
 }

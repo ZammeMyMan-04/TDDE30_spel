@@ -18,6 +18,9 @@ public abstract class GameObject
     public abstract void update();
     public abstract void render(Graphics2D g2d);
     public abstract void collision(GameObject other);
+    public void updateRaycasts() {
+
+    }
 
     protected void addAABB() {
         gm.getObjManager().getCollisionManager().addAABB(aabb);

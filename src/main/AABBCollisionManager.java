@@ -26,7 +26,6 @@ public class AABBCollisionManager {
                     parent1.collision(parent2);
                     parent2.collision(parent1);
                 }
-
             }
         }
     }
@@ -37,10 +36,13 @@ public class AABBCollisionManager {
     public void addAABB(AABBComponent aabbComponent) {
         aabb.add(aabbComponent);
     }
-
     public void drawHitboxes(Graphics2D g2d) {
         for (AABBComponent aabbComponent : aabb) {
             aabbComponent.render(g2d);
         }
     }
+    public ArrayList<AABBComponent> getAABB() {
+        return aabb;
+    }
+
 }

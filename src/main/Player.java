@@ -22,7 +22,7 @@ public class Player extends GameObject
 
         initHitbox();
 
-        id = ObjectID.PlAYER;
+        id = ObjectID.PLAYER;
         keyHandler = gm.getKeyHandler();
     }
 
@@ -54,6 +54,16 @@ public class Player extends GameObject
         }
 
         aabb.update();
+    }
+
+    @Override
+    public void updateRaycasts() {
+        double angle = Math.toRadians(45);
+        int distance = 200;
+
+        GameObject obj= gm.getObjManager().getRaycaster().castRay(aabb.getHitbox().getCenterX(), aabb.getHitbox().getCenterY(), angle, distance, this);
+
+        if (obj != null) System.out.println("hit");
     }
 
     @Override

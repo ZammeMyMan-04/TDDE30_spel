@@ -36,8 +36,8 @@ public class GameManager extends JPanel {
     public GameManager() {
         initPanel(TS * 30, TS * 20);
 
-        camera = new Camera(this, ObjectID.PlAYER, 0.08f);
-        camera.setTarget(objManager.getObject(ObjectID.PlAYER));
+        camera = new Camera(this, ObjectID.PLAYER, 0.08f);
+        camera.setTarget(objManager.getObject(ObjectID.PLAYER));
 
         objManager.setGameObjects();
     }

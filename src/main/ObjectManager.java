@@ -3,12 +3,14 @@ package main;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ObjectManager {
 
     private ArrayList<GameObject> objects;
     private GameManager gm;
     private AABBCollisionManager collisionManager = new AABBCollisionManager();
+    private Raycaster raycaster = new Raycaster(collisionManager.getAABB());
 
     private boolean debug = true;
 
@@ -45,9 +47,16 @@ public class ObjectManager {
             collisionManager.removeAABB(obj.getAABB());
             objects.remove(obj);
         }
+
+        // UPDATE RAYCASTS
+        for (GameObject obj : objects) {
+            obj.updateRaycasts();
+        }
     }
 
     public void draw(Graphics2D g2d) {
+        //raycaster.drawRaycast(g2d);
+
         // SORT
         objects.sort(new PositionComparator());
 
@@ -68,5 +77,8 @@ public class ObjectManager {
 
     public AABBCollisionManager getCollisionManager() {
         return collisionManager;
+    }
+    public Raycaster getRaycaster() {
+        return raycaster;
     }
 }
