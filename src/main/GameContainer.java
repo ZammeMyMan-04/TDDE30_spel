@@ -2,12 +2,12 @@ package main;
 
 import javax.swing.*;
 
+import static utilz.Constants.GameContainer.*;
+
 public class GameContainer implements Runnable {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private JFrame frame;
-    private final int TARGET_FPS = 60;
-    private final int TARGET_UPS = 60;
 
     public GameContainer(GameManager gameManager) {
         this.gameManager = gameManager;

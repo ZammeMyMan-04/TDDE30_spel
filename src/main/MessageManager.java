@@ -4,13 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static utilz.Constants.Fonts.ARIAL_10;
+import static utilz.Constants.GameContainer.TARGET_UPS;
 
 
 public class MessageManager
 {
     private static class Message {
         private final String message;
-        private final static int MESSAGE_DURATION = 300;
+        private final static int MESSAGE_DURATION = 4 * TARGET_UPS;
         private int counter = MESSAGE_DURATION;
 
         public Message(String message) {

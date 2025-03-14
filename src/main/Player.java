@@ -4,32 +4,37 @@ import input.KeyHandler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
 
 import static utilz.Constants.Game.TS;
 
 public class Player extends GameObject
 {
-
-    private GameManager gm;
-    private KeyHandler keyHandler;
+    private final KeyHandler keyHandler;
     private int speed = 1;
 
     public Player(GameManager gm) {
-        this.gm = gm;
+        super(gm);
 
         x = 20;
         y = 20;
         width = TS;
         height = TS;
-        hitbox = new Rectangle2D.Float();
-        hitboxOffsetX = (int) (width / 4f);
-        hitboxOffsetY = (int) (height / 4f);
-        hitbox.width = width / 2f;
-        hitbox.height = height / 2f;
+
+        initHitbox();
 
         id = ObjectID.PlAYER;
         keyHandler = gm.getKeyHandler();
+    }
+
+    private void initHitbox() {
+        aabb = new AABBComponent(this);
+        aabb.setOffsetX((int) (width / 4f));
+        aabb.setOffsetY((int) (height / 4f));
+        aabb.getHitbox().width = width / 2f;
+        aabb.getHitbox().height = height / 2f;
+        aabb.update();
+
+        addAABB();
     }
 
     @Override
@@ -48,7 +53,7 @@ public class Player extends GameObject
             x -= speed;
         }
 
-        updateHitbox();
+        aabb.update();
     }
 
     @Override
@@ -57,5 +62,8 @@ public class Player extends GameObject
         g2d.fillRect((int)x, (int)y, width, height);
     }
 
-
+    @Override
+    public void collision(GameObject other) {
+        System.out.println(id + " collided with " + other.getID());
+    }
 }

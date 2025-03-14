@@ -1,32 +1,28 @@
 package main;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public abstract class GameObject
 {
     protected float x, y;
     protected int width, height;
-    protected Rectangle2D.Float hitbox = null;
-    protected int hitboxOffsetX, hitboxOffsetY;
+    protected AABBComponent aabb;
     protected ObjectID id;
+    protected boolean remove = false; // Default is false
+    protected GameManager gm;
+
+    public GameObject(GameManager gm) {
+        this.gm = gm;
+    }
 
     public abstract void update();
     public abstract void render(Graphics2D g2d);
+    public abstract void collision(GameObject other);
 
-    public void drawHitbox(Graphics2D g2d) {
-        if (hitbox == null) return;
-
-        g2d.setColor(Color.RED);
-        g2d.drawRect((int)hitbox.x, (int)hitbox.y, (int)hitbox.width, (int)hitbox.height);
+    protected void addAABB() {
+        gm.getObjManager().getCollisionManager().addAABB(aabb);
     }
 
-    protected void updateHitbox() {
-        if (hitbox == null) return;
-
-        hitbox.x = x + hitboxOffsetX;
-        hitbox.y = y + hitboxOffsetY;
-    }
 
     public float getX() {
         return x;
@@ -46,5 +42,13 @@ public abstract class GameObject
 
     public ObjectID getID() {
         return id;
+    }
+
+    public boolean shouldRemove() {
+        return remove;
+    }
+
+    public AABBComponent getAABB() {
+        return aabb;
     }
 }

@@ -20,4 +20,10 @@ public class Constants
         public static final Font ARIAL_80B = new Font("Arial", Font.BOLD, 80 * SCALE);
     }
 
+    public static class GameContainer
+    {
+        public static final int TARGET_UPS = 60;
+        public static final int TARGET_FPS = 60;
+    }
+
 }

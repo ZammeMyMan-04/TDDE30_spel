@@ -2,12 +2,13 @@ package main;
 
 import java.awt.*;
 
-import static utilz.Constants.Fonts.ARIAL_15;
+import static utilz.Constants.Fonts.*;
+import static utilz.Constants.GameContainer.TARGET_UPS;
 
 public class UI
 {
 
-    private GameManager gm;
+    private final GameManager gm;
     private Graphics2D g2d;
 
     // MANAGERS
@@ -24,6 +25,11 @@ public class UI
         drawText("TEST");
 
         messageManager.displayMessages(g2d);
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setFont(ARIAL_10);
+        int time = (int) (gm.getGameTime() / TARGET_UPS);
+        drawCenteredText(String.valueOf(time), gm.getWidth() / 2, 30);
     }
 
     public void drawText(String txt)
@@ -46,7 +52,6 @@ public class UI
         int newX = x - centerTextX;
         g2d.drawString(text, newX, y);
     }
-
     public void setG2D(Graphics2D g2d) {
         this.g2d = g2d;
     }

@@ -30,11 +30,16 @@ public class GameManager extends JPanel {
     // TEMPORARY
     int i = 0;
 
+    // TIMERS
+    private double gameTime = 0;
+
     public GameManager() {
         initPanel(TS * 30, TS * 20);
 
         camera = new Camera(this, ObjectID.PlAYER, 0.08f);
         camera.setTarget(objManager.getObject(ObjectID.PlAYER));
+
+        objManager.setGameObjects();
     }
 
     private void initPanel(int width, int height) {
@@ -54,9 +59,10 @@ public class GameManager extends JPanel {
 
         switch (state) {
             case PLAY -> {
+                gameTime++;
+
                 objManager.update();
                 camera.update();
-
 
                 // ADD A MESSAGE
                 if (keyHandler.isKeyClick(KeyEvent.VK_SPACE)) {
@@ -152,5 +158,8 @@ public class GameManager extends JPanel {
     }
     public MouseHandler getMouseHandler() {
         return mouseHandler;
+    }
+    public double getGameTime() {
+        return gameTime;
     }
 }
