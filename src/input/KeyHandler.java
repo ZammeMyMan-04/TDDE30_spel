@@ -26,7 +26,7 @@ public class KeyHandler implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {/* ? */}
+    public void keyTyped(KeyEvent keyEvent) {}
 
     public boolean isKeyDown(int keyCode)
     {

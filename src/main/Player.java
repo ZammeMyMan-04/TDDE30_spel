@@ -10,7 +10,7 @@ import static utilz.Constants.Game.TS;
 public class Player extends GameObject
 {
     private final KeyHandler keyHandler;
-    private int speed = 1;
+    private int speed = 10;
 
     public Player(GameManager gm) {
         super(gm);

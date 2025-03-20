@@ -39,10 +39,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     public void mouseDragged(MouseEvent mouseEvent) {}
 
     @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-//        gm.getPlayer().setX(mouseEvent.getX());
-//        gm.getPlayer().setY(mouseEvent.getY());
-    }
+    public void mouseMoved(MouseEvent mouseEvent) {}
 
     public void update() {
         button1Old = button1;

@@ -29,6 +29,7 @@ public class GameManager extends JPanel {
 
     // TEMPORARY
     int i = 0;
+    boolean cameraFollow = false;
 
     // TIMERS
     private double gameTime = 0;
@@ -105,7 +106,8 @@ public class GameManager extends JPanel {
         g2d.setColor(new Color(0, 90, 0));
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        camera.applyTranslation(g2d);
+        if (cameraFollow)
+            camera.applyTranslation(g2d);
 
         // ZOOM
         if (mouseHandler.button1Down()) { // fungerar lite lustigt
@@ -117,7 +119,8 @@ public class GameManager extends JPanel {
         g2d.setColor(Color.white);
         g2d.drawRect(0, 0, 10, 10);
 
-        camera.restoreTranslation(g2d);
+        if (cameraFollow)
+            camera.restoreTranslation(g2d);
 
         // UI
         ui.draw();
